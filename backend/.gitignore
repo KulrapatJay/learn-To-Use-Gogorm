@@ -1,0 +1,19 @@
+# ไฟล์ environment variables (ไม่ควรเก็บขึ้น Git)
+.env
+
+# ไฟล์ไบนารีที่ build จากคำสั่ง go build
+/bin/
+/build/
+/*.exe
+/*.exe~
+/*.dll
+/*.so
+/*.dylib
+
+# โฟลเดอร์ vendor (ถ้าใช้ go modules ปกติจะไม่ vendor แต่ถ้า vendor ก็ให้ .gitignore)
+#/vendor/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
