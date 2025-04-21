@@ -38,8 +38,42 @@ func getFoodByID(c *fiber.Ctx) error {
 	  return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.JSON(food)
-  }
+}
 
+func createFood(c *fiber.Ctx) error {
+	var input Food
+	if err := c.BodyParser(&input); err != nil {
+	  return c.Status(400).JSON(fiber.Map{"error": "Invalid input"})
+	}
+	if err := db.Create(&input).Error; err != nil {
+	  return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(201).JSON(input)
+}
+
+func updateFood(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var food Food
+	if err := db.First(&food, id).Error; err != nil {
+	   return c.Status(404).JSON(fiber.Map{"error": "Food not found"})
+	}
+	var input Food
+	if err := c.BodyParser(&input); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid input"})
+	}
+	if err := db.Model(&food).Updates(input).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(food)
+}
+
+func deleteFood(c *fiber.Ctx) error {
+	id := c.Params("id")
+	if err := db.Delete(&Food{}, id).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(200).JSON(fiber.Map{"message": "Food deleted successfully"})
+}
 
 
 // แบบเก่าก่อนใช้ Gorm

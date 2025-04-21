@@ -62,9 +62,9 @@ func main() {
 	app.Get("/info", infos)
 	app.Get("/foods", getFoods)
 	app.Get("/foods/:id", getFoodByID)
-	// app.Post("/foods", createFood)
-	// app.Put("/foods/:id", updateFood)
-	// app.Delete("/foods/:id", deleteFood)
+	app.Post("/foods", createFood)
+	app.Put("/foods/:id", updateFood)
+	app.Delete("/foods/:id", deleteFood)
 	
 
 	// app listening at PORT: 3000
