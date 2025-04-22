@@ -1,0 +1,28 @@
+├── /app
+│   ├── layout.tsx                     ⬅ layout หลัก (ใส่ <Navbar /> ได้ที่นี่)
+│   ├── page.tsx                       ⬅ หน้า homepage
+│   │
+│   └── /foods                         ⬅ Feature: "Foods"
+│       ├── page.tsx                   ⬅ หน้า list /foods
+│       ├── create.tsx                 ⬅ หน้าเพิ่มอาหาร
+│       └── /[id]
+│           ├── page.tsx              ⬅ หน้าแสดงรายละเอียดอาหาร
+│           └── edit.tsx              ⬅ หน้าแก้ไขอาหาร
+│
+├── /components
+│   ├── /navbar
+│   │   ├── Navbar.tsx                 ⬅ Navbar หลัก
+│   │   └── NavItem.tsx               ⬅ ตัวทำลิงค์
+│   │
+│   └── /foods
+│       ├── FoodForm.tsx              ⬅ Form สร้าง/แก้ไขอาหาร
+│       ├── FoodItem.tsx              ⬅ กล่องแสดงอาหาร 1 รายการ
+│       ├── FoodList.tsx              ⬅ แสดงรายการอาหารทั้งหมด (optional)
+│       └── DeleteButton.tsx          ⬅ ปุ่มลบอาหาร
+│
+├── public/                            ⬅ รูปภาพ/icon/static
+│
+├── .env.local                         ⬅ ตัวแปร env เช่น API URL
+├── next.config.js
+├── package.json
+└── tsconfig.json
