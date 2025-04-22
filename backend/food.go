@@ -3,6 +3,7 @@ package main
 import (
  	// "strconv"
 	"github.com/gofiber/fiber/v2"
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"	
 	// "database/sql"
 )
@@ -40,10 +41,34 @@ func getFoodByID(c *fiber.Ctx) error {
 	return c.JSON(food)
 }
 
+var validate = validator.New()
+
 func createFood(c *fiber.Ctx) error {
 	var input Food
 	if err := c.BodyParser(&input); err != nil {
 	  return c.Status(400).JSON(fiber.Map{"error": "Invalid input"})
+	}
+
+	if err:= validate.Struct(input); err != nil{
+		validationErrors, ok := err.(validator.ValidationErrors)
+		if !ok {
+			return c.Status(500).JSON(fiber.Map{"error": "Validation failed unexpectedly"})
+		}
+		error := make(map[string]string)
+		for _, err := range validationErrors{
+			field := err.Field()
+			switch err.Tag(){
+				case "required":
+					error[field] = field + " is required"
+				case "min":
+					error[field] = field + " must be " + err.Param() + " characters long"
+				case "gte":
+					error[field] = field + " must be greater than " + err.Param()
+				default: 
+					error[field] = "Invalid validation error" + field
+			}
+		}  
+		return c.Status(400).JSON(fiber.Map{"Validation error": error})
 	}
 	if err := db.Create(&input).Error; err != nil {
 	  return c.Status(500).JSON(fiber.Map{"error": err.Error()})

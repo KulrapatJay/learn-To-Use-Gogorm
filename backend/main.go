@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -17,8 +18,8 @@ var db *gorm.DB
 
 type Food struct {
 	ID    uint   `gorm:"primaryKey" json:"id"`
-	Name  string `json:"name"`
-	Price uint   `json:"price"`
+	Name  string `json:"name" validate:"required,min=2"`
+	Price uint   `json:"price" validate:"required"`
   }
 
 func initDB() {
@@ -49,6 +50,7 @@ func main() {
 	}
 
 	app := fiber.New()
+	app.Use(recover.New())
 	initDB()
 	
 	app.Use(cors.New(cors.Config{
