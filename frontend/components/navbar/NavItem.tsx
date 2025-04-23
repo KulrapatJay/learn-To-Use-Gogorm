@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ReactNode } from 'react';
+
 
 type NavItemProps = {
     href: string;
-    label: string;
+    label: ReactNode;
 }
 
 const NavItem: React.FC<NavItemProps> = ({ href, label }) => {
